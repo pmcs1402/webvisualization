@@ -1,0 +1,74 @@
+<html>
+<head>
+  <meta charset="utf-8" />
+
+	<title>Guess Number</title>
+</head>
+
+<body>
+  <style>
+  .textbox {position: relative; width: 300px; margin: 300px}
+
+  </style>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+var guessme=Math.round(Math.random()*(99)+1);
+var speech='Enter the number between 1~100.';
+
+function process(mystery) {
+  var life = 5;
+	var guess=document.forms.guessquiz.guess.value;
+	var speech='"'+guess+ '" it is not good number.';
+		document.forms.guessquiz.guess.value='';
+
+	if (guess==mystery){
+		document.forms.guessquiz.prompt.value='CONGRATS.! '+mystery+' is answer.!';
+		alert ('ConGrats! Mystery number was '+mystery+' click Ok to replay.');
+		speech='';
+		document.location=document.location;
+	}
+
+	if (mystery<guess){
+		speech=guess + ' is too big.';
+    if(life<1)
+    {
+      alter('GAME OVER!');
+    }
+    life = life - 1;
+	}
+
+	if (mystery>guess){
+		speech=guess + ' is too small.';
+    if(life<1)
+    {
+      alter('GAME OVER!');
+    }
+    life = life -1;
+	}
+
+	if (guess==''){
+		speech='You didn\'t guess anything!'
+	}
+document.forms.guessquiz.prompt.value=speech; document.forms.guessquiz.guess.focus();
+}
+
+//-->
+</SCRIPT>
+
+<FORM onSubmit="" NAME="guessquiz">
+
+<div class="textbox">
+<TABLE>
+<TR>
+<TD>
+<INPUT TYPE="text" NAME="prompt" SIZE="40" MAXLENGTH="40" VALUE="Enter the number between 1~100."><BR>
+<INPUT TYPE="text" NAME="guess" SIZE="3" MAXLENGTH="3" VALUE="">
+<INPUT TYPE="button" VALUE="Guess" onClick='process(guessme)'>
+</TD>
+</TR>
+</TABLE>
+</FORM>
+</div>
+</body>
+</html>

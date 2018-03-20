@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>grade chart</title>
+  </head>
+  <body>
+    <div class="one-graph"></div>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script>
+        var w = 500, h = 500;
+        var graphData = [6, 8, 12, 3, 1];
+        var grade =["A", "B", "C", "D", "F"];
+        var colorData = ["red", "green", "yellow", "blue", "purple"];
+        var pie = d3.pie();
+        var arc = d3.arc().innerRadius(80).outerRadius(200);
+
+        var svg = d3.select(".one-graph")
+        	.append("svg")
+        	.attr("width", w)
+        	.attr("height", h)
+        	.attr("id", "graphWrap");
+
+        var g = svg.selectAll(".pie")
+        	.data(pie(graphData))
+        	.enter()
+        	.append("g")
+        	.attr("class", "pie")
+        	.attr("transform","translate("+w/2+","+h/2+")");
+
+        // put color
+        g.append("path")
+        	// .attr("d", arc) // no animation
+        	.style("fill", function(d, i) {
+        		return colorData[i];
+        	}) // for animation
+        	.transition()
+        	.duration(400)
+        	.delay(function(d, i) { // one by one
+        		return i * 50;
+        	})
+        	.attrTween("d", function(d, i) {
+        		var interpolate = d3.interpolate(
+        			{startAngle : d.startAngle, endAngle : d.startAngle}, // start angle for each section
+        			{startAngle : d.startAngle, endAngle : d.endAngle} // end angle for each section
+        		);
+        		return function(t){
+        			return arc(interpolate(t)); // interpolate by time
+        		}
+        	});
+
+        // text in middle of graph.
+        svg.append("text")
+        	.attr("class", "total")
+        	.attr("transform", "translate("+(w/2-35)+", "+(h/2+5)+")")
+        	.text("total:" + d3.sum(graphData) + " people");
+
+        // put value in the array
+        g.append("text")
+        	.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+        	.attr("dy", ".35em")
+        	.style("text-anchor", "middle")
+        	.text(function(d, i) {
+        		return grade[i] + " : " + graphData[i] + " people";
+        	});
+
+    </script>
+    <h1>WESTMONT COMPUTER SCINECE 10 <br>  MID-TERM GRADE</h1>
+  </body>
+</html>
